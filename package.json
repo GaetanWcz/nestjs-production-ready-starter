@@ -13,6 +13,7 @@
   },
   "scripts": {
     "build": "nest build",
+    "docker:local:install": "docker compose -f ./docker/local/docker-compose.yml up --build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
