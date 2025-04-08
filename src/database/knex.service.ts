@@ -1,6 +1,6 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import knex, { Knex as KnexType } from 'knex';
-import { knexConfig } from './knex.config';
+import knexConfig from './knex.config'
 
 @Injectable()
 export class KnexService implements OnModuleDestroy {
