@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "nest build",
-    "docker:local:down": "docker compose -f ./docker/local/docker-compose.yml down",
+    "docker:local:down": "docker compose -f ./docker/local/docker-compose.yml down -v",
     "docker:local:install": "docker compose -f ./docker/local/docker-compose.yml up --build -d",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "migrate": "ts-node -r dotenv/config node_modules/knex/bin/cli.js migrate:latest --knexfile=src/database/knex.config.ts",

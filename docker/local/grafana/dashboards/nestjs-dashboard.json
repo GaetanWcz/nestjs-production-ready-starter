@@ -1,0 +1,59 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": null,
+    "title": "NestJS Monitoring Dashboard",
+    "timezone": "browser",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "HTTP Request Duration",
+        "targets": [
+          {
+            "expr": "http_request_duration_seconds_sum / http_request_duration_seconds_count",
+            "legendFormat": "avg duration",
+            "interval": ""
+          }
+        ],
+        "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 }
+      },
+      {
+        "type": "graph",
+        "title": "HTTP Request Count",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total[1m])",
+            "legendFormat": "{{method}} {{route}}",
+            "interval": ""
+          }
+        ],
+        "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 }
+      },
+      {
+        "type": "stat",
+        "title": "Up",
+        "targets": [
+          {
+            "expr": "up",
+            "format": "time_series"
+          }
+        ],
+        "gridPos": { "x": 0, "y": 8, "w": 6, "h": 4 }
+      },
+      {
+        "type": "stat",
+        "title": "Memory Usage",
+        "targets": [
+          {
+            "expr": "process_resident_memory_bytes",
+            "format": "bytes"
+          }
+        ],
+        "gridPos": { "x": 6, "y": 8, "w": 6, "h": 4 }
+      }
+    ],
+    "schemaVersion": 38,
+    "version": 1
+  },
+  "overwrite": true
+}

@@ -1,0 +1,11 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "example-dashboard",
+    "title": "Example Dashboard",
+    "tags": ["example"],
+    "timezone": "browser",
+    "panels": []
+  },
+  "overwrite": true
+}
