@@ -32,17 +32,17 @@ export class UsersController {
   }
 
   @Put(':userId')
-  @ApiOperation({summary: 'Update a specific user'})
-  @ApiBody({type: CreateUserDto})
-  @ApiResponse({status: 200, description: 'User successfully updated'})
+  @ApiOperation({ summary: 'Update a specific user' })
+  @ApiBody({ type: CreateUserDto })
+  @ApiResponse({ status: 200, description: 'User successfully updated' })
   async updateUser(@Body() updatedUser: CreateUserDto, @Param('userId') userId: number) {
-    return this.usersService.updateUser(userId, updatedUser)
+    return this.usersService.updateUser(userId, updatedUser);
   }
 
   @Delete(':userId')
-  @ApiOperation({summary: 'Delete a given user'})
-  @ApiResponse({status: 201, description: 'User successfully deleted'})
+  @ApiOperation({ summary: 'Delete a given user' })
+  @ApiResponse({ status: 201, description: 'User successfully deleted' })
   async deleteUser(@Param('userId') userId: number) {
     return this.usersService.deleteUser(userId);
-  }  
+  }
 }

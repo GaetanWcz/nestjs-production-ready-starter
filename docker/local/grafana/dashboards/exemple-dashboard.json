@@ -1,0 +1,173 @@
+{
+  "id": null,
+  "uid": null,
+  "title": "NestJS Monitoring Dashboard",
+  "tags": ["nestjs", "monitoring", "prometheus"],
+  "timezone": "browser",
+  "schemaVersion": 22,
+  "version": 1,
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Total HTTP Requests",
+      "targets": [
+        {
+          "expr": "http_requests_total",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "{{method}} {{handler}} {{route}}",
+          "refId": "A"
+        }
+      ],
+      "datasource": null,
+      "xaxis": {
+        "mode": "time"
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": "Requests"
+        }
+      ],
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1
+    },
+    {
+      "type": "graph",
+      "title": "Request Duration",
+      "targets": [
+        {
+          "expr": "http_request_duration_seconds_sum / http_request_duration_seconds_count",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "{{method}} {{handler}} {{route}}",
+          "refId": "A"
+        }
+      ],
+      "datasource": null,
+      "xaxis": {
+        "mode": "time"
+      },
+      "yaxes": [
+        {
+          "format": "s",
+          "label": "Seconds"
+        }
+      ],
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2
+    },
+    {
+      "type": "singlestat",
+      "title": "Up Time",
+      "targets": [
+        {
+          "expr": "time() - process_start_time_seconds",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "Up Time",
+          "refId": "A"
+        }
+      ],
+      "valueName": "current",
+      "format": "s",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "id": 3
+    },
+    {
+      "type": "graph",
+      "title": "Memory Usage",
+      "targets": [
+        {
+          "expr": "process_resident_memory_bytes",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "Memory Usage",
+          "refId": "A"
+        }
+      ],
+      "datasource": null,
+      "xaxis": {
+        "mode": "time"
+      },
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": "Bytes"
+        }
+      ],
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 13
+      },
+      "id": 4
+    },
+    {
+      "type": "graph",
+      "title": "CPU Usage",
+      "targets": [
+        {
+          "expr": "rate(process_cpu_seconds_total[1m])",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "CPU Usage",
+          "refId": "A"
+        }
+      ],
+      "datasource": null,
+      "xaxis": {
+        "mode": "time"
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "CPU"
+        }
+      ],
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 13
+      },
+      "id": 5
+    }
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m"
+    ]
+  },
+  "refresh": "5s",
+  "annotations": {
+    "list": []
+  }
+}
