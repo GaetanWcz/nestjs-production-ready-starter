@@ -11,6 +11,7 @@ export class PrometheusMiddleware implements NestMiddleware {
   private readonly errorCounter: Counter<string>;
   private readonly processStartTime: Gauge<string>;
   private readonly processCpuSecondsTotal: Gauge<string>;
+  private readonly processResidentMemoryBytes: Gauge<string>;
 
   private lastCpuUsage: number[];
 
@@ -49,10 +50,18 @@ export class PrometheusMiddleware implements NestMiddleware {
       help: 'Total CPU time the process has consumed in seconds (since start)',
     });
 
+    this.processResidentMemoryBytes = new Gauge({
+      name: 'process_resident_memory_bytes',
+      help: 'Resident memory size in bytes (RAM) used by the process',
+    });
+
     this.processStartTime.set(Date.now() / 1000);
 
     this.lastCpuUsage = os.cpus().map((cpu) => cpu.times.user + cpu.times.nice + cpu.times.sys);
-    setInterval(() => this.updateCpuUsage(), 1000);
+    setInterval(() => {
+      this.updateCpuUsage();
+      this.updateMemoryUsage();
+    }, 1000);
   }
 
   private updateCpuUsage() {
@@ -67,11 +76,12 @@ export class PrometheusMiddleware implements NestMiddleware {
     this.lastCpuUsage = currentCpuUsage;
   }
 
-  use(req: Request, res: Response, next: () => void): void {
-    if (req.url === '/metrics') {
-      next();
-    }
+  private updateMemoryUsage() {
+    const memoryUsage = process.memoryUsage();
+    this.processResidentMemoryBytes.set(memoryUsage.rss);
+  }
 
+  use(req: Request, res: Response, next: () => void): void {
     this.activeRequests.inc();
 
     const start = Date.now();
