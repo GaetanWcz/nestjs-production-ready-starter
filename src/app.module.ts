@@ -1,15 +1,15 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { configuration } from './config/configuration';
 import { UsersModule } from 'src/modules/user/users.module';
 import { LoggerModule } from 'nestjs-pino';
 import { RequestIdMiddleware } from 'src/common/middlewares/requestId.middleware';
+import { HealthModule } from 'src/modules/health/health.module';
 
 @Module({
   imports: [
+    HealthModule,
     UsersModule,
     ConfigModule.forRoot({
-      load: [configuration],
       isGlobal: true,
     }),
     LoggerModule.forRootAsync({
