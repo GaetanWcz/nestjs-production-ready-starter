@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UsersRepository } from 'src/modules/user/users.repository';
+import { UsersRepository } from 'src/modules/users/users.repository';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
 @Injectable()
