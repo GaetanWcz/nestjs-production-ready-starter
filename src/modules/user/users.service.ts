@@ -1,25 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { KnexService } from '../../database/knex.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UsersRepository } from 'src/modules/user/users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly knexService: KnexService) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
-  async getAllUsers() {
-    const knex = this.knexService.getKnexInstance();
-    return knex('users').select('id', 'username', 'email');
+  async getAllUsers(): Promise<CreateUserDto[]> {
+    return this.usersRepository.findAll(['id', 'first_name', 'last_name', 'email']);
   }
 
-  async getUserById(id: number) {
-    const knex = this.knexService.getKnexInstance();
-    return knex('users').where('id', id).first();
+  async getUserById(id: number): Promise<CreateUserDto | undefined> {
+    return this.usersRepository.findById(id);
   }
 
-  async createUser(createUserDto: CreateUserDto) {
-    const knex = this.knexService.getKnexInstance();
+  async createUser(userToCreate: CreateUserDto): Promise<CreateUserDto | undefined> {
+    return this.usersRepository.insertOne(userToCreate, [
+      'id',
+      'first_name',
+      'last_name',
+      'email',
+    ]);
+  }
 
-    const [newUser] = await knex('users').insert(createUserDto, ['id', 'username', 'email']);
-    return newUser;  // Retourne l'utilisateur créé avec son ID
+  async updateUser(id: number, updatedUser: CreateUserDto): Promise<boolean> {
+    return this.usersRepository.updateOne(id, updatedUser)
+  }
+
+  async deleteUser(id: number): Promise<boolean> {
+    return this.usersRepository.deleteOne(id);
   }
 }
+
