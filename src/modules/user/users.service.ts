@@ -1,34 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersRepository } from 'src/modules/user/users.repository';
+import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    @InjectPinoLogger(UsersService.name) private readonly logger: PinoLogger,
+    private readonly usersRepository: UsersRepository,
+  ) {}
 
   async getAllUsers(): Promise<CreateUserDto[]> {
+    this.logger.debug('Entering UsersService.getAllUsers()');
     return this.usersRepository.findAll(['id', 'first_name', 'last_name', 'email']);
   }
 
-  async getUserById(id: number): Promise<CreateUserDto | undefined> {
-    return this.usersRepository.findById(id);
+  async getUserById(userId: number): Promise<CreateUserDto | undefined> {
+    this.logger.debug(`Entering UsersService.getUserById(${userId})`);
+    return this.usersRepository.findById(userId);
   }
 
   async createUser(userToCreate: CreateUserDto): Promise<CreateUserDto | undefined> {
-    return this.usersRepository.insertOne(userToCreate, [
-      'id',
-      'first_name',
-      'last_name',
-      'email',
-    ]);
+    return this.usersRepository.insertOne(userToCreate, ['id', 'first_name', 'last_name', 'email']);
   }
 
   async updateUser(id: number, updatedUser: CreateUserDto): Promise<boolean> {
-    return this.usersRepository.updateOne(id, updatedUser)
+    return this.usersRepository.updateOne(id, updatedUser);
   }
 
   async deleteUser(id: number): Promise<boolean> {
     return this.usersRepository.deleteOne(id);
   }
 }
-
