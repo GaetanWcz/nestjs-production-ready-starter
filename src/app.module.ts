@@ -1,11 +1,11 @@
+import { PrometheusMiddleware } from '@/common/middlewares/prometheus.middleware';
+import { RequestIdMiddleware } from '@/common/middlewares/requestId.middleware';
+import { HealthModule } from '@/modules/health/health.module';
+import { MetricsController } from '@/modules/metrics/metrics.controller';
+import { UsersModule } from '@/modules/users/users.module';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersModule } from 'src/modules/users/users.module';
 import { LoggerModule } from 'nestjs-pino';
-import { RequestIdMiddleware } from 'src/common/middlewares/requestId.middleware';
-import { HealthModule } from 'src/modules/health/health.module';
-import { MetricsController } from 'src/modules/metrics/metrics.controller';
-import { PrometheusMiddleware } from 'src/common/middlewares/prometheus.middleware';
 
 @Module({
   imports: [

@@ -35,7 +35,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Update a specific user' })
   @ApiBody({ type: CreateUserDto })
   @ApiResponse({ status: 200, description: 'User successfully updated' })
-  async updateUser(@Body() updatedUser: CreateUserDto, @Param('userId') userId: number) {
+  async updateUser(@Body() updatedUser: Partial<CreateUserDto>, @Param('userId') userId: number) {
     return this.usersService.updateUser(userId, updatedUser);
   }
 

@@ -1,6 +1,6 @@
+import { BaseRepository } from '@/common/base.repository';
+import { KnexService } from '@/database/knex.service';
 import { Injectable } from '@nestjs/common';
-import { KnexService } from '../../database/knex.service';
-import { BaseRepository } from '../../common/base.repository';
 
 @Injectable()
 export class UsersRepository extends BaseRepository {

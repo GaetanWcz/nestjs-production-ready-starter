@@ -1,8 +1,8 @@
+import { KnexModule } from '@/database/knex.module';
+import { UsersController } from '@/modules/users/users.controller';
+import { UsersRepository } from '@/modules/users/users.repository';
+import { UsersService } from '@/modules/users/users.service';
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
-import { KnexModule } from '../../database/knex.module';
-import { UsersRepository } from 'src/modules/users/users.repository';
 
 @Module({
   imports: [KnexModule],
