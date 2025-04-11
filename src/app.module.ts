@@ -43,6 +43,6 @@ import { LoggerModule } from 'nestjs-pino';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(PrometheusMiddleware).forRoutes('*');
-    consumer.apply(RequestIdMiddleware).forRoutes('*'); // Appliquer à toutes les routes
+    consumer.apply(RequestIdMiddleware).forRoutes('*');
   }
 }
