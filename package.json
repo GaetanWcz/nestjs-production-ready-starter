@@ -1,10 +1,10 @@
 {
   "name": "nestjs-production-ready-starter",
   "version": "1.0.0",
-  "description": "",
+  "description": "NestJS starter fully setup",
   "author": "Gaëtan WICHLACZ",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "lint-staged": {
     "*.ts": [
       "eslint --fix",
