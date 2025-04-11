@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { HealthCheckService } from '@nestjs/terminus';
+import { HealthCheckResult, HealthCheckService } from '@nestjs/terminus';
 import knex, { Knex as KnexType } from 'knex';
 
 @Injectable()
@@ -23,8 +23,16 @@ export class HealthService {
     });
   }
 
-  async readinessCheck(): Promise<any> {
-    return this.health.check([async () => this.checkDatabase()]);
+  async readinessCheck(): Promise<HealthCheckResult> {
+    try {
+      return await this.health.check([async () => this.checkDatabase()]);
+    } catch (err) {
+      return {
+        status: 'error',
+        error: err.message,
+        details: err.stack,
+      };
+    }
   }
 
   async livenessCheck(): Promise<any> {

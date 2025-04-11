@@ -35,7 +35,7 @@ import { LoggerModule } from 'nestjs-pino';
           },
         };
       },
-      inject: [ConfigService], // Injection de ConfigService
+      inject: [ConfigService],
     }),
   ],
   controllers: [MetricsController],

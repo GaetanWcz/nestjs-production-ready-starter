@@ -1,16 +1,13 @@
-# Étape 1 : Build de l'application
 FROM node:22-slim AS builder
 
 WORKDIR /app
 
-# Copier les fichiers nécessaires pour installer les dépendances
 COPY package*.json ./
 COPY tsconfig*.json ./
 COPY nest-cli.json ./
 RUN npm install --frozen-lockfile
 
-# Copier le reste du code source
-COPY . .
+COPY src ./src
 
 RUN npm run build
 

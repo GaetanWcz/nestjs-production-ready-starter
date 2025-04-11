@@ -29,6 +29,7 @@ Painless production-ready starter for your next NestJS + Postgre Application.
   * Health endpoints
 
 * CI/CD :
+  * Github Actions 
   * Docker & Docker-Compose file for production builds
   * Husky, commitlint & lint-staged
   * ESLint
