@@ -13,20 +13,15 @@ Painless production-ready starter for your next NestJS + Postgre Application.
 
 ### What can you find here
 
-* Auth & Security :
-  * JWT Authentication (access + refresh token) [TO VALIDATE]
-  * Role-based access control
-  * Rate-limiter [TO VALIDATE]
-
 * PostgreSQL Plug & Play :
   * Knex integration
   * Dockerfile for local PG DB
+  * Dockerfile for integration tests with dedicated PG DB
   * Migration support
 
 * API Documentation & Data Quality :
   * Swagger support
   * Data validation
-
 
 * Logging & Monitoring :
   * Logger support (pino) with request-id tracing
@@ -34,15 +29,14 @@ Painless production-ready starter for your next NestJS + Postgre Application.
   * Health endpoints
 
 * CI/CD :
-  * Github Actions 
   * Docker & Docker-Compose file for production builds
   * Husky, commitlint & lint-staged
   * ESLint
   * Auto-Versionning with Sementic releases
 
 * Testing :
-  * Playwright
-  * Bruno collection
+  * Unit Tests 
+  * Integration Tests
 
 
 ## Project setup
