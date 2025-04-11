@@ -1,7 +1,7 @@
+import { HealthController } from '@/modules/health/health.controller';
+import { HealthService } from '@/modules/health/health.service';
 import { Module } from '@nestjs/common';
-import { HealthController } from './health.controller';
 import { TerminusModule } from '@nestjs/terminus';
-import { HealthService } from './health.service';
 
 @Module({
   imports: [TerminusModule],

@@ -15,6 +15,8 @@ export class PrometheusMiddleware implements NestMiddleware {
 
   private lastCpuUsage: number[];
 
+  private readonly cpuInterval: NodeJS.Timeout;
+
   constructor() {
     this.requestCounter = new Counter({
       name: 'http_requests_total',
@@ -58,7 +60,7 @@ export class PrometheusMiddleware implements NestMiddleware {
     this.processStartTime.set(Date.now() / 1000);
 
     this.lastCpuUsage = os.cpus().map((cpu) => cpu.times.user + cpu.times.nice + cpu.times.sys);
-    setInterval(() => {
+    this.cpuInterval = setInterval(() => {
       this.updateCpuUsage();
       this.updateMemoryUsage();
     }, 1000);
@@ -114,5 +116,12 @@ export class PrometheusMiddleware implements NestMiddleware {
     });
 
     next();
+  }
+
+  /**
+   * This allows Prometheus Middleware to avoid leaving open handles when running tests
+   */
+  onModuleDestroy() {
+    clearInterval(this.cpuInterval);
   }
 }

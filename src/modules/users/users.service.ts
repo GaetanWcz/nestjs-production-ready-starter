@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UsersRepository } from 'src/modules/users/users.repository';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
+import { UsersRepository } from '@/modules/users/users.repository';
+import { CreateUserDto } from '@/modules/users/dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -24,8 +24,14 @@ export class UsersService {
     return this.usersRepository.insertOne(userToCreate, ['id', 'first_name', 'last_name', 'email']);
   }
 
-  async updateUser(id: number, updatedUser: CreateUserDto): Promise<boolean> {
-    return this.usersRepository.updateOne(id, updatedUser);
+  async updateUser(id: number, updatedUser: Partial<CreateUserDto>): Promise<boolean> {
+    this.logger.debug('Entering UsersService.updateUser');
+    const existingUser = await this.usersRepository.findById(id);
+
+    return this.usersRepository.updateOne(id, {
+      ...existingUser,
+      ...updatedUser,
+    });
   }
 
   async deleteUser(id: number): Promise<boolean> {
