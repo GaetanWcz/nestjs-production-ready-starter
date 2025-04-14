@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { UsersRepository } from '@/modules/users/users.repository';
 import { CreateUserDto } from '@/modules/users/dto/create-user.dto';
+import { UserNotFoundException } from '@/common/exceptions/users.exceptions';
 
 @Injectable()
 export class UsersService {
@@ -17,7 +18,13 @@ export class UsersService {
 
   async getUserById(userId: number): Promise<CreateUserDto | undefined> {
     this.logger.debug(`Entering UsersService.getUserById(${userId})`);
-    return this.usersRepository.findById(userId);
+    const user = await this.usersRepository.findById<CreateUserDto>(userId);
+
+    if (!user) {
+      throw new UserNotFoundException();
+    }
+
+    return user;
   }
 
   async createUser(userToCreate: CreateUserDto): Promise<CreateUserDto | undefined> {

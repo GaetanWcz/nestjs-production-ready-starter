@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PinoLogger } from 'nestjs-pino';
 import { UsersRepository } from '@/modules/users/users.repository';
 import { UsersService } from '@/modules/users/users.service';
+import { UserNotFoundException } from '@/common/exceptions/users.exceptions';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -70,11 +71,13 @@ describe('UsersService', () => {
       expect(usersRepositoryMock.findById).toHaveBeenCalledWith(1);
     });
 
-    it('should return undefined if user is not found', async () => {
+    it('should throw UserNotFoundException if user is not found', async () => {
       usersRepositoryMock.findById = jest.fn().mockResolvedValue(undefined);
-
-      const result = await service.getUserById(1);
-      expect(result).toBeUndefined();
+      try {
+        await service.getUserById(1);
+      } catch (error) {
+        expect(error).toBeInstanceOf(UserNotFoundException);
+      }
     });
   });
 
