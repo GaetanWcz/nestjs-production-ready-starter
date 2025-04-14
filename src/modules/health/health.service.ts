@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { HealthCheckResult, HealthCheckService } from '@nestjs/terminus';
+import { HealthCheckResult, HealthCheckService, HealthIndicatorResult } from '@nestjs/terminus';
 import knex, { Knex as KnexType } from 'knex';
 
 @Injectable()
@@ -35,17 +35,17 @@ export class HealthService {
     }
   }
 
-  async livenessCheck(): Promise<any> {
+  async livenessCheck(): Promise<HealthCheckResult> {
     return this.health.check([
       // add whatever you want to monitor for keeping your app alive
     ]);
   }
 
-  private async checkDatabase(): Promise<any> {
+  private async checkDatabase(): Promise<HealthIndicatorResult> {
     try {
       await this.knex.raw('SELECT 1');
-      return { status: 'up' };
-    } catch (error) {
+      return { database: { status: 'up' } };
+    } catch {
       throw new Error('Database is down');
     }
   }

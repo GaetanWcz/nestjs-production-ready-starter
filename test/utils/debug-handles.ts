@@ -5,8 +5,8 @@ setTimeout(() => {
 }, 100);
 
 interface DebuggableProcess extends NodeJS.Process {
-  _getActiveHandles(): any[];
-  _getActiveRequests(): any[];
+  _getActiveHandles(): unknown[];
+  _getActiveRequests(): unknown[];
 }
 
 const dbgProcess = process as DebuggableProcess;
