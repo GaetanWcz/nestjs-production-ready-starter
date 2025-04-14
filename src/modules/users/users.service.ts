@@ -26,7 +26,7 @@ export class UsersService {
 
   async updateUser(id: number, updatedUser: Partial<CreateUserDto>): Promise<boolean> {
     this.logger.debug('Entering UsersService.updateUser');
-    const existingUser = await this.usersRepository.findById(id);
+    const existingUser = (await this.usersRepository.findById(id)) as CreateUserDto;
 
     return this.usersRepository.updateOne(id, {
       ...existingUser,

@@ -1,0 +1,60 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  prepare: 
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        
+  lint:
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+    - name: Run linter
+      run: |
+        npm run lint
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    needs: lint
+
+    steps: 
+    - name: Start unit tests 
+      run: |
+        npm run test:unit:cov
+
+  integation-tests:
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    steps:
+    - name: Start Integration Docker
+      run: |
+        npm run docker:integration:start
+
+    - name: Play migrations on integration DB
+      run: |
+        npm run migrate:integration
+
+    - name: Run tests
+      run: |
+        npm run test:integration:cov
+
+    - name: Stop Integration Docker
+      run: |
+        npm run docker:integration:down
+
