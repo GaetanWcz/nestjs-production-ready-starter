@@ -1,6 +1,5 @@
 import { PrometheusMiddleware } from '@/common/middlewares/prometheus.middleware';
 import { RequestIdMiddleware } from '@/common/middlewares/requestId.middleware';
-import { silentStream } from '@/common/utils/logger.helper';
 import { HealthModule } from '@/modules/health/health.module';
 import { MetricsController } from '@/modules/metrics/metrics.controller';
 import { UsersModule } from '@/modules/users/users.module';
@@ -18,18 +17,13 @@ import { LoggerModule } from 'nestjs-pino';
     LoggerModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
-        const isTestEnv = process.env.NODE_ENV === 'test';
-
         return {
           pinoHttp: {
-            level: isTestEnv ? 'silent' : configService.get<string>('LOG_LEVEL', 'info'),
-            stream: isTestEnv ? silentStream : undefined,
-            transport: !isTestEnv
-              ? {
-                  target: 'pino-pretty',
-                  options: { colorize: true },
-                }
-              : undefined,
+            level: configService.get<string>('LOG_LEVEL', 'info'),
+            transport: {
+              target: 'pino-pretty',
+              options: { colorize: true },
+            },
             quietReqLogger: true,
             quietResLogger: true,
           },
