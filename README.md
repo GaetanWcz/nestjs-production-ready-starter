@@ -1,4 +1,5 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+[![Create with npx](https://img.shields.io/badge/create%20with-npx-brightgreen)](https://www.npmjs.com/package/create-nestjs-pg-app)
 
 
 <p align="center">
